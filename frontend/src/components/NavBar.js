@@ -1,6 +1,7 @@
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
-
-
+import "./NavBar.css";
+import Cookies from 'js-cookie';
+import Button from 'react-bootstrap/Button';
 
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -8,9 +9,16 @@ import { NavLink } from "react-router-dom";
 
 import Nav from 'react-bootstrap/Nav';
 
-function NavBar() {
+function NavBar({reloaded}) {
   const [click, setClick] = useState(false);
-
+  const handleLogout = () => {
+    Cookies.remove('token');
+    Cookies.remove('user');
+    console.log("Logout")
+    reloaded('Done2');
+    console.log("Logout")
+  }
+  
   const handleClick = () => setClick(!click);
   return (
     <SidebarMenu>
@@ -90,6 +98,11 @@ function NavBar() {
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
       </SidebarMenu.Body>
+      <div className='logout'>
+        <Button variant="link" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
     </SidebarMenu>
 
 );

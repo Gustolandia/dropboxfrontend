@@ -1,0 +1,9 @@
+.sidebar-menu.sidebar-menu-expand.show.sidebar-menu-light{
+    height:100%;
+    min-height: 650px;
+}
+
+.logout{
+    position: fixed;
+    bottom:50px;
+}

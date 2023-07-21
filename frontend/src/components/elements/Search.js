@@ -14,8 +14,8 @@ export default function Search(props) {
 
 
   useEffect(() => {
-    props.setState(getFilteredItems(query, props.unfilteredData));
-  })
+    props.filteredData(getFilteredItems(query, props.unfilteredData));
+  },[query, props])
   return (
     <div className="mb-3">
     <Row>
