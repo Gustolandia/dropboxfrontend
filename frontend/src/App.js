@@ -6,11 +6,12 @@ import { Sharing } from "./components/Pages/Sharing";
 import { Requests } from "./components/Pages/Requests";
 import { Deleted } from "./components/Pages/Deleted";
 import { Container} from 'react-bootstrap';
+import { Loading } from "./components/elements/Loading";
 
 function App() {
   return (
     <Container>
-      <div className='mt-5'>
+      <div className='pt-5 min-vh-100'>
       <Router>
         
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/sharing" element={<Sharing />} />
                 <Route path="/requests" element={<Requests />} />
                 <Route path="/deleted" element={<Deleted />} />
+                <Route path="/loading" element={<Loading />} />
             </Routes>
 
       </Router>

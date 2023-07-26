@@ -13,6 +13,7 @@ import {
   MDBCheckbox
 }
 from 'mdb-react-ui-kit';
+import { Loading } from "../elements/Loading";
 
 export const Login = ({reloaded}) => {
 
@@ -46,7 +47,7 @@ export const Login = ({reloaded}) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(process.env.REACT_APP_API+'/api/login_check', {
+      const response = await fetch(process.env.REACT_APP_API+'/api/user/login_check', {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ username: username, password:password })
@@ -79,7 +80,7 @@ export const Login = ({reloaded}) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(process.env.REACT_APP_API+'/api/register', {
+      const response = await fetch(process.env.REACT_APP_API+'/api/user/register', {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ username: registerUser, email:registerEmail, password:registerPassword })
@@ -210,7 +211,7 @@ export const Login = ({reloaded}) => {
 
     </MDBContainer></>
     :
-    isLoading? <h2>Loading...</h2>:
+    isLoading? <Loading/>:
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
 
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>

@@ -11,7 +11,7 @@ export const ModalsRight = () => {
   
     return (
 
-        <Stack gap={1}>
+        <Stack gap={1} className="d-none d-sm-block">
             <div className="menuRight"><ModalFile/></div>
             <div className="menuRight"><ModalUploadFile/></div>
             <div className="menuRight"><ModalUploadFolder/></div>

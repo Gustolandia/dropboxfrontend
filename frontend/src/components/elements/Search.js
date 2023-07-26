@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
 import {Col, Row} from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+
 const getFilteredItems = (query, items) => {
   if (!query) {
     return items;
@@ -19,9 +22,9 @@ export default function Search(props) {
   return (
     <div className="mb-3">
     <Row>
-      <Col xs={8}></Col>
-      <Col xs={4}>
-      <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} />
+      <Col xs={7}></Col>
+      <Col xs={5}>
+        <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} /> <FontAwesomeIcon icon={faUser} />
       </Col>
     </Row>
     </div>

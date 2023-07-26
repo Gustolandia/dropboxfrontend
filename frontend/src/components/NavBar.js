@@ -3,14 +3,13 @@ import "./NavBar.css";
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 
 import Nav from 'react-bootstrap/Nav';
 
 function NavBar({reloaded}) {
-  const [click, setClick] = useState(false);
   const handleLogout = () => {
     Cookies.remove('token');
     Cookies.remove('user');
@@ -18,16 +17,23 @@ function NavBar({reloaded}) {
     reloaded('Done2');
     console.log("Logout")
   }
-  
-  const handleClick = () => setClick(!click);
+  const [open, setOpen] = useState(false);
+  const handleCollapse = () => setOpen(!open);
+  useEffect(() => {
+    if (window.innerWidth >= 576) {
+      setOpen(true);
+    }
+  },[open])
+
   return (
+ 
     <SidebarMenu>
-      <SidebarMenu.Header>
+      <SidebarMenu.Header onClick={handleCollapse}>
         <SidebarMenu.Brand>
           <h1>FileBox</h1>
         </SidebarMenu.Brand>
       </SidebarMenu.Header>
-      <SidebarMenu.Body>
+      <SidebarMenu.Body className={open?'collapse show':'collapse'}>
         <SidebarMenu.Nav>
           <SidebarMenu.Nav.Link>
             <SidebarMenu.Nav.Title>
@@ -43,7 +49,6 @@ function NavBar({reloaded}) {
                 to="/home"
                 activeClassName="active"
                 className="nav-links"
-                onClick={handleClick}
               >
                 Home
               </NavLink></Nav.Link>
@@ -58,7 +63,6 @@ function NavBar({reloaded}) {
                 to="/sharing"
                 activeClassName="active"
                 className="nav-links"
-                onClick={handleClick}
               >
                 Sharing
               </NavLink></Nav.Link>
@@ -74,7 +78,6 @@ function NavBar({reloaded}) {
                 to="/requests"
                 activeClassName="active"
                 className="nav-links"
-                onClick={handleClick}
               >
                 File requests
               </NavLink>
@@ -90,19 +93,19 @@ function NavBar({reloaded}) {
                 to="/deleted"
                 activeClassName="active"
                 className="nav-links"
-                onClick={handleClick}
               >
                 Deleted Files
               </NavLink></Nav.Link>
             </SidebarMenu.Nav.Title>
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
+        <div className='logout'>
+          <Button variant="link" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
       </SidebarMenu.Body>
-      <div className='logout'>
-        <Button variant="link" onClick={handleLogout}>
-          Logout
-        </Button>
-      </div>
+      
     </SidebarMenu>
 
 );

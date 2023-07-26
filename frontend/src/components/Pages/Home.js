@@ -7,13 +7,14 @@ import Search from "../elements/Search"
 import NavBar from "../NavBar";
 import Cookies from 'js-cookie';
 import { Login } from "../elements/Login";
-
+import { Loading } from "../elements/Loading";
 
 export const Home = () => {
   const [state, setState] = useState({data: myFiles});
   const [err, setErr] = useState('');
   const [status, setStatus] = useState('');
   const [reload, setReload] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const filteredFunction = (filteredData) => {
     setState(filteredData);
@@ -26,10 +27,11 @@ export const Home = () => {
 
 
   useEffect(() => {
+    setIsLoading(true);
     const dataFetch = async () => {
       if (Cookies.get('token')!==undefined){
       try {
-        const response = await fetch(process.env.REACT_APP_API+'/api/dashboard', {
+        const response = await fetch(process.env.REACT_APP_API+'/api/user/me', {
           method: 'GET',
           headers: { 'Content-Type': 'text/plain',
           'Authorization': 'Bearer '+Cookies.get('token')} 
@@ -51,12 +53,14 @@ export const Home = () => {
       } finally {
         console.log(reload)
         setReload('')
+        setIsLoading(false);
 
 
 
       }}else{
         setReload('')
         setStatus(401)
+        setIsLoading(false);
       }
     }
     dataFetch();
@@ -66,28 +70,28 @@ export const Home = () => {
 
 
   return (
-    <>{
+    <>{isLoading? <Loading/>:
       status===200?
       
       <Row> 
 
-            <Col xs={3}>
+            <Col xs={2} sm={3}>
               <NavBar reloaded={reloadedFunction}/>
             </Col>
-            <Col xs={9}>
-        <Container>
+            <Col xs={10} sm={9}>
+              <Container>
 
-          <Search unfilteredData={myFiles} filteredData={filteredFunction} />
+                <Search unfilteredData={myFiles} filteredData={filteredFunction} />
 
-          <Row>
-            <Col xs={8}>
-              <ListOfFiles data={state}/>
-            </Col>
-            <Col xs={4}>
-              <ModalsRight/>
-            </Col>
-          </Row>
-        </Container >
+                <Row>
+                  <Col sm={8}>
+                    <ListOfFiles data={state}/>
+                  </Col>
+                  <Col sm={4}>
+                    <ModalsRight/>
+                  </Col>
+                </Row>
+              </Container >
         </Col>
       </Row>
     :
