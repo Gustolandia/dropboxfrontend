@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import { Login } from "../elements/Login";
 import { Loading } from "../elements/Loading";
 
-export const Home = () => {
+export const Home = ({Right}) => {
   const [state, setState] = useState({data: myFiles});
   const [err, setErr] = useState('');
   const [status, setStatus] = useState('');
@@ -22,7 +22,12 @@ export const Home = () => {
 
   const reloadedFunction = (reloadedData) => {
     setReload(reloadedData);
-    console.log(reload);
+  };
+  const isItLoading = (Loading) => {
+    setIsLoading(Loading);
+  };
+  const error = (error) => {
+    setStatus(error);
   };
 
 
@@ -41,9 +46,7 @@ export const Home = () => {
           throw new Error(`Error! status: ${response.status}`);
         }
 
-        const result = await response.json();
-        console.log(result)
-        console.log('result is: ', response.status);
+        //const result = await response.json();
         setStatus(response.status)
         setErr('');
       } catch (error) {
@@ -51,7 +54,6 @@ export const Home = () => {
         setStatus(error.message);
         console.log('errors:'+err);
       } finally {
-        console.log(reload)
         setReload('')
         setIsLoading(false);
 
@@ -76,12 +78,12 @@ export const Home = () => {
       <Row> 
 
             <Col xs={2} sm={3}>
-              <NavBar reloaded={reloadedFunction}/>
+              <NavBar reloaded={reloadedFunction} isItLoading={isItLoading}/>
             </Col>
             <Col xs={10} sm={9}>
               <Container>
 
-                <Search unfilteredData={myFiles} filteredData={filteredFunction} />
+                <Search unfilteredData={myFiles} filteredData={filteredFunction} problem={error} />
 
                 <Row>
                   <Col sm={8}>

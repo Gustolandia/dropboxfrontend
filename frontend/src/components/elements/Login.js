@@ -33,6 +33,7 @@ export const Login = ({reloaded}) => {
   const [registerUser, setRegisterUser] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
+  const [registerConfirmPassword, setRegisterConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState('');
 
@@ -45,7 +46,7 @@ export const Login = ({reloaded}) => {
   };
   const handleClickSignIn = async () => {
     setIsLoading(true);
-
+    
     try {
       const response = await fetch(process.env.REACT_APP_API+'/api/user/login_check', {
         method: 'POST',
@@ -60,13 +61,14 @@ export const Login = ({reloaded}) => {
 
       const result = await response.json();
 
-      console.log(result.token)
       Cookies.set('token', result.token, 1)
       Cookies.set('user', username, 1)
       reloaded('Done3');
-      console.log('Login');
     } catch (err) {
       setErr(err.message);
+      if(err.message==='Error! status: 401'){
+        setErr('Incorrect password or username')
+      }
     } finally {
       
       setIsLoading(false);
@@ -78,31 +80,35 @@ export const Login = ({reloaded}) => {
   
   const handleClickSignUp = async () => {
     setIsLoading(true);
+    if(registerPassword===registerConfirmPassword){
+      try {
+        const response = await fetch(process.env.REACT_APP_API+'/api/user/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ username: registerUser, email:registerEmail, password:registerPassword })
+        });
 
-    try {
-      const response = await fetch(process.env.REACT_APP_API+'/api/user/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ username: registerUser, email:registerEmail, password:registerPassword })
-      });
 
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
 
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
+        const result = await response.json();
 
-      const result = await response.json();
+        console.log(result.token)
+        console.log('SignUp');
+        setJustifyActive('tab1')
+      } catch (err) {
+        setErr(err.message);
+      } finally {
+        
+        setIsLoading(false);
+        
+        
 
-      console.log(result.token)
-      console.log('SignUp');
-      setJustifyActive('tab1')
-    } catch (err) {
-      setErr(err.message);
-    } finally {
-      
-      setIsLoading(false);
-      
-      
+      }}else{
+        setErr('Passwords do not match')
+        setIsLoading(false);
 
     }
   };
@@ -112,7 +118,7 @@ export const Login = ({reloaded}) => {
   
   return (
     <>
-    {err? <><h2>{err}</h2>
+    {err?<><h2>{err}</h2>
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
 
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
@@ -198,6 +204,7 @@ export const Login = ({reloaded}) => {
           <MDBInput wrapperClass='mb-4' label='Username' id='form32' type='text' onChange={(e) => setRegisterUser(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Email' id='form33' type='email' onChange={(e) => setRegisterEmail(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Password' id='form34' type='password' onChange={(e) => setRegisterPassword(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Confirm password' id='form341' type='password' onChange={(e) => setRegisterConfirmPassword(e.target.value)} />
 
           <div className='d-flex justify-content-center mb-4'>
             <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
@@ -297,6 +304,7 @@ export const Login = ({reloaded}) => {
           <MDBInput wrapperClass='mb-4' label='Username' id='form32' type='text' onChange={(e) => setRegisterUser(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Email' id='form33' type='email' onChange={(e) => setRegisterEmail(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Password' id='form34' type='password' onChange={(e) => setRegisterPassword(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Confirm password' id='form341' type='password' onChange={(e) => setRegisterConfirmPassword(e.target.value)} />
 
           <div className='d-flex justify-content-center mb-4'>
             <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />

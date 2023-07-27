@@ -9,21 +9,46 @@ import { NavLink } from "react-router-dom";
 
 import Nav from 'react-bootstrap/Nav';
 
-function NavBar({reloaded}) {
-  const handleLogout = () => {
-    Cookies.remove('token');
-    Cookies.remove('user');
-    console.log("Logout")
-    reloaded('Done2');
-    console.log("Logout")
+function NavBar({reloaded, isItLoading}) {
+
+
+  const handleLogout = async () => {
+    try {
+      isItLoading(true)
+      const response = await fetch(process.env.REACT_APP_API+'/api/user/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain',
+          'Authorization': 'Bearer '+Cookies.get('token')} 
+        })
+
+
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+
+      //const result = await response.json();
+
+      Cookies.remove('token');
+      Cookies.remove('user');
+      reloaded('Done2');
+    } catch (err) {
+      console.log(err)
+    } finally {
+      isItLoading(false)
+
+      
+      
+
+    }
   }
   const [open, setOpen] = useState(false);
+
   const handleCollapse = () => setOpen(!open);
   useEffect(() => {
     if (window.innerWidth >= 576) {
       setOpen(true);
     }
-  },[open])
+  },[open,isItLoading])
 
   return (
  
@@ -44,35 +69,35 @@ function NavBar({reloaded}) {
         <SidebarMenu.Nav>
           <SidebarMenu.Nav.Link>
             <SidebarMenu.Nav.Title>
-            <Nav.Link eventKey="link-1"><NavLink
+            <NavLink
                 exact
-                to="/home"
+                to="/"
                 activeClassName="active"
                 className="nav-links"
               >
                 Home
-              </NavLink></Nav.Link>
+              </NavLink>
             </SidebarMenu.Nav.Title>
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
         <SidebarMenu.Nav>
           <SidebarMenu.Nav.Link>
             <SidebarMenu.Nav.Title>
-            <Nav.Link eventKey="link-2"><NavLink
+            <NavLink
                 exact
                 to="/sharing"
                 activeClassName="active"
                 className="nav-links"
               >
                 Sharing
-              </NavLink></Nav.Link>
+              </NavLink>
             </SidebarMenu.Nav.Title>
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
         <SidebarMenu.Nav>
           <SidebarMenu.Nav.Link>
             <SidebarMenu.Nav.Title>
-            <Nav.Link eventKey="link-3" >
+
             <NavLink
                 exact
                 to="/requests"
@@ -81,21 +106,21 @@ function NavBar({reloaded}) {
               >
                 File requests
               </NavLink>
-            </Nav.Link>
+
             </SidebarMenu.Nav.Title>
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
         <SidebarMenu.Nav>
           <SidebarMenu.Nav.Link>
             <SidebarMenu.Nav.Title>
-            <Nav.Link eventKey="link-4"><NavLink
+            <NavLink
                 exact
                 to="/deleted"
                 activeClassName="active"
                 className="nav-links"
               >
                 Deleted Files
-              </NavLink></Nav.Link>
+              </NavLink>
             </SidebarMenu.Nav.Title>
           </SidebarMenu.Nav.Link>
         </SidebarMenu.Nav>
