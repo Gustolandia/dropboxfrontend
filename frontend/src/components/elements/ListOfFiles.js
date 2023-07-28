@@ -1,5 +1,6 @@
 import React from "react";
 import {Table} from 'react-bootstrap';
+import {DropMenu} from './DropMenu'
 
 
 
@@ -27,7 +28,7 @@ export const ListOfFiles = (data) => {
                         <td>{info.name}</td>
                         <td>{info.modified}</td>
                         <td>{info.size}</td>
-                        <td>...</td>
+                        <td><DropMenu/></td>
                     </tr>
                 )}):
                 
@@ -37,7 +38,7 @@ export const ListOfFiles = (data) => {
                       <td>{info.name}</td>
                       <td>{info.modified}</td>
                       <td>{info.size}</td>
-                      <td>...</td>
+                      <td><DropMenu/></td>
                   </tr>
               )})
                 }

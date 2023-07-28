@@ -43,6 +43,7 @@ export const Login = ({reloaded}) => {
     }
 
     setJustifyActive(value);
+    setErr('');
   };
   const handleClickSignIn = async () => {
     setIsLoading(true);
@@ -96,7 +97,8 @@ export const Login = ({reloaded}) => {
 
         console.log(result.token)
         console.log('SignUp');
-        setJustifyActive('tab1')
+        setJustifyActive('tab1');
+        setErr('');
       } catch (err) {
         setErr(err.message);
       } finally {
