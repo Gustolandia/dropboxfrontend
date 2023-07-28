@@ -12,11 +12,11 @@ export const ModalsRight = () => {
     return (
 
         <Stack gap={1} className="d-none d-sm-block">
-            <div className="menuRight"><ModalFile/></div>
-            <div className="menuRight"><ModalUploadFile/></div>
-            <div className="menuRight"><ModalUploadFolder/></div>
-            <div className="menuRight"><ModalSharedFolder /></div>
-            <div className="menuRight"><ModalFolder /></div>
+            <div className="menuRight d-flex justify-content-end"><ModalFile/></div>
+            <div className="menuRight d-flex justify-content-end"><ModalUploadFile/></div>
+            <div className="menuRight d-flex justify-content-end"><ModalUploadFolder/></div>
+            <div className="menuRight d-flex justify-content-end"><ModalSharedFolder /></div>
+            <div className="menuRight d-flex justify-content-end"><ModalFolder /></div>
 
 
           </Stack>

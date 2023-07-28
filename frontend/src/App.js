@@ -2,31 +2,29 @@ import "./App.css";
 
 import { BrowserRouter as Router,  Route, Routes } from "react-router-dom";
 import { Home } from "./components/Pages/Home";
-import { Sharing } from "./components/Pages/Sharing";
-import { Requests } from "./components/Pages/Requests";
-import { Deleted } from "./components/Pages/Deleted";
-import { Container} from 'react-bootstrap';
+
 import { Loading } from "./components/elements/Loading";
+import {myFiles,deleted,fileRequests,sharing} from "./data";
 
 function App() {
   return (
-    <Container>
-      <div className='pt-5 min-vh-100'>
+
+      <div className='min-vh-100'>
       <Router>
         
 
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/sharing" element={<Sharing />} />
-                <Route path="/requests" element={<Requests />} />
-                <Route path="/deleted" element={<Deleted />} />
+                <Route path="/" element={<Home data={myFiles} Right={true} />} />
+                <Route path="/home" element={<Home data={myFiles} Right={true} />} />
+                <Route path="/sharing" element={<Home data={sharing} Right={false} />} />
+                <Route path="/requests" element={<Home data={fileRequests} Right={false} />} />
+                <Route path="/deleted" element={<Home data={deleted} Right={false} />} />
                 <Route path="/loading" element={<Loading />} />
             </Routes>
 
       </Router>
       </div>
-  </Container>
+
   );
 }
 

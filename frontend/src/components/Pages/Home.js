@@ -2,15 +2,15 @@ import React, {useState, useEffect} from "react";
 import {Container, Col, Row} from 'react-bootstrap';
 import { ModalsRight } from "../elements/ModalsRight";
 import { ListOfFiles } from "../elements/ListOfFiles";
-import {myFiles} from "../../data";
+
 import Search from "../elements/Search"
 import NavBar from "../NavBar";
 import Cookies from 'js-cookie';
 import { Login } from "../elements/Login";
 import { Loading } from "../elements/Loading";
 
-export const Home = ({Right}) => {
-  const [state, setState] = useState({data: myFiles});
+export const Home = ({Right, data}) => {
+  const [state, setState] = useState({data: data});
   const [err, setErr] = useState('');
   const [status, setStatus] = useState('');
   const [reload, setReload] = useState('');
@@ -75,22 +75,22 @@ export const Home = ({Right}) => {
     <>{isLoading? <Loading/>:
       status===200?
       
-      <Row> 
+      <Row > 
 
             <Col xs={2} sm={3}>
               <NavBar reloaded={reloadedFunction} isItLoading={isItLoading}/>
             </Col>
-            <Col xs={10} sm={9}>
-              <Container>
+            <Col xs={10} sm={9} >
+              <Container className='pt-5 mt-5'>
 
-                <Search unfilteredData={myFiles} filteredData={filteredFunction} problem={error} />
+                <Search unfilteredData={data} filteredData={filteredFunction} problem={error} />
 
-                <Row>
+                <Row >
                   <Col sm={8}>
                     <ListOfFiles data={state}/>
                   </Col>
-                  <Col sm={4}>
-                    <ModalsRight/>
+                  <Col sm={4} >
+                    {Right?<ModalsRight/>:<></>}
                   </Col>
                 </Row>
               </Container >

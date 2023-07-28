@@ -7,8 +7,6 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 
-import Nav from 'react-bootstrap/Nav';
-
 function NavBar({reloaded, isItLoading}) {
 
 
@@ -29,7 +27,6 @@ function NavBar({reloaded, isItLoading}) {
       //const result = await response.json();
 
       Cookies.remove('token');
-      Cookies.remove('user');
       reloaded('Done2');
     } catch (err) {
       console.log(err)
@@ -52,23 +49,23 @@ function NavBar({reloaded, isItLoading}) {
 
   return (
  
-    <SidebarMenu>
+    <SidebarMenu className='MainNav py-5 px-5'>
       <SidebarMenu.Header onClick={handleCollapse}>
         <SidebarMenu.Brand>
           <h1>FileBox</h1>
         </SidebarMenu.Brand>
       </SidebarMenu.Header>
       <SidebarMenu.Body className={open?'collapse show':'collapse'}>
-        <SidebarMenu.Nav>
-          <SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Title>
-              <Nav.Link href="/"><NavLink exact to="/" className="nav-logo"> FileBox </NavLink></Nav.Link>
-            </SidebarMenu.Nav.Title>
-          </SidebarMenu.Nav.Link>
+        <SidebarMenu.Nav className='py-1'>
+
+
+              <NavLink exact to="/" className="nav-logo"> FileBox </NavLink>
+
+          
         </SidebarMenu.Nav>
-        <SidebarMenu.Nav>
-          <SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Title>
+        <SidebarMenu.Nav className='py-1'>
+          
+
             <NavLink
                 exact
                 to="/"
@@ -77,12 +74,12 @@ function NavBar({reloaded, isItLoading}) {
               >
                 Home
               </NavLink>
-            </SidebarMenu.Nav.Title>
-          </SidebarMenu.Nav.Link>
+
+          
         </SidebarMenu.Nav>
-        <SidebarMenu.Nav>
-          <SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Title>
+        <SidebarMenu.Nav className='py-1'>
+          
+
             <NavLink
                 exact
                 to="/sharing"
@@ -91,12 +88,12 @@ function NavBar({reloaded, isItLoading}) {
               >
                 Sharing
               </NavLink>
-            </SidebarMenu.Nav.Title>
-          </SidebarMenu.Nav.Link>
+
+          
         </SidebarMenu.Nav>
-        <SidebarMenu.Nav>
-          <SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Title>
+        <SidebarMenu.Nav className='py-1'>
+          
+
 
             <NavLink
                 exact
@@ -107,12 +104,12 @@ function NavBar({reloaded, isItLoading}) {
                 File requests
               </NavLink>
 
-            </SidebarMenu.Nav.Title>
-          </SidebarMenu.Nav.Link>
+
+          
         </SidebarMenu.Nav>
-        <SidebarMenu.Nav>
-          <SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Title>
+        <SidebarMenu.Nav className='py-1'>
+          
+
             <NavLink
                 exact
                 to="/deleted"
@@ -121,8 +118,8 @@ function NavBar({reloaded, isItLoading}) {
               >
                 Deleted Files
               </NavLink>
-            </SidebarMenu.Nav.Title>
-          </SidebarMenu.Nav.Link>
+
+          
         </SidebarMenu.Nav>
         <div className='logout'>
           <Button variant="link" onClick={handleLogout}>

@@ -20,7 +20,6 @@ export const FieldEditor = ({data, reload}) => {
           body: JSON.stringify({[show1]:field })
         });
 
-        console.log(JSON.stringify({ [show1]:field }))
         if (!response.ok) {
           throw new Error(`Error! status: ${response.status}`);
         }
@@ -42,7 +41,7 @@ export const FieldEditor = ({data, reload}) => {
       reload('trying1')
         
     } 
-
+    
 
   return (
     <>

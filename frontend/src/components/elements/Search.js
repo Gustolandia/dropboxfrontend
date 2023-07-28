@@ -32,8 +32,8 @@ export default function Search({filteredData, unfilteredData}) {
     <div className="mb-3">
     <Row>
       <Col xs={7}></Col>
-      <Col xs={5}>
-        <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} /> <ModalUser errorCode={errorFunction}/>
+      <Col xs={5} className="d-flex justify-content-end">
+        <input className='mx-2 mb-3' type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} /> <ModalUser errorCode={errorFunction}/>
       </Col>
     </Row>
     </div>

@@ -62,7 +62,6 @@ export const Login = ({reloaded}) => {
       const result = await response.json();
 
       Cookies.set('token', result.token, 1)
-      Cookies.set('user', username, 1)
       reloaded('Done3');
     } catch (err) {
       setErr(err.message);

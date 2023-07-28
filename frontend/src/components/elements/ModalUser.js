@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Cookies from 'js-cookie';
 import { Loading } from "./Loading";
 import {FieldEditor} from './FieldEditor';
+import {DeleteUser} from './DeleteUser';
 import {Login} from './Login';
 import { Row} from 'react-bootstrap';
 
@@ -67,7 +68,7 @@ export const ModalUser = () => {
   },[err, show, reload]);
   return (
     <>
-      <FontAwesomeIcon icon={faUser} onClick={handleShow} style={{cursor: 'pointer'}}/>
+      <FontAwesomeIcon icon={faUser} size = '2x' onClick={handleShow} style={{cursor: 'pointer'}}/>
 
         {isLoading?
         <Loading/>
@@ -84,6 +85,7 @@ export const ModalUser = () => {
                         <FieldEditor data={data} reload={pleaseReload}/>
                         
                     </Row>
+                    <DeleteUser/>
             </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
