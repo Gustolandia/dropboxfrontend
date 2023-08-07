@@ -90,7 +90,7 @@ export const Home = ({Right, data}) => {
                     <ListOfFiles data={state}/>
                   </Col>
                   <Col sm={4} >
-                    {Right?<ModalsRight/>:<></>}
+                    {Right?<ModalsRight parent={null} reload={reloadedFunction}/>:<></>}
                   </Col>
                 </Row>
               </Container >
