@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 
-function NavBar({reloaded, isItLoading}) {
+function NavBar({reloaded, isItLoading, logout}) {
 
 
   const handleLogout = async () => {
@@ -28,6 +28,7 @@ function NavBar({reloaded, isItLoading}) {
 
       Cookies.remove('token');
       reloaded('Done2');
+      logout(true);
     } catch (err) {
       console.log(err)
     } finally {
@@ -59,7 +60,7 @@ function NavBar({reloaded, isItLoading}) {
         <SidebarMenu.Nav className='py-1'>
 
 
-              <NavLink exact to="/" className="nav-logo"> FileBox </NavLink>
+              <NavLink to="/" className="nav-logo"> FileBox </NavLink>
 
           
         </SidebarMenu.Nav>
@@ -67,9 +68,8 @@ function NavBar({reloaded, isItLoading}) {
           
 
             <NavLink
-                exact
+                
                 to="/"
-                activeClassName="active"
                 className="nav-links"
               >
                 Home
@@ -81,12 +81,11 @@ function NavBar({reloaded, isItLoading}) {
           
 
             <NavLink
-                exact
-                to="/sharing"
-                activeClassName="active"
+                
+                to="/snapshots"
                 className="nav-links"
               >
-                Sharing
+                Snapshots
               </NavLink>
 
           
@@ -94,26 +93,9 @@ function NavBar({reloaded, isItLoading}) {
         <SidebarMenu.Nav className='py-1'>
           
 
-
             <NavLink
-                exact
-                to="/requests"
-                activeClassName="active"
-                className="nav-links"
-              >
-                File requests
-              </NavLink>
-
-
-          
-        </SidebarMenu.Nav>
-        <SidebarMenu.Nav className='py-1'>
-          
-
-            <NavLink
-                exact
+                
                 to="/deleted"
-                activeClassName="active"
                 className="nav-links"
               >
                 Deleted Files

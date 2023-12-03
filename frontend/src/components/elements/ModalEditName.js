@@ -6,23 +6,22 @@ import Cookies from 'js-cookie';
 import { fetchSnapshotData } from '../middleware/fetchSnapshotData';
 
 
-export const ModalFolder = ({parent,reload} ) => {
+export const ModalEditName = ({info, reload} ) => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
-  let parentId
-  parent===null? parentId=null : parentId=parent.id;
+
   const handleChange = async () => {
     
     try {
-      const response = await fetch(process.env.REACT_APP_API+'/api/file/create/folder', {
-        method: 'POST',
+      const response = await fetch(process.env.REACT_APP_API+'/api/file/update/'+info.type+'/'+info.id, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/JSON' ,
         'Authorization': 'Bearer '+Cookies.get('token')},
-        body: JSON.stringify({"name":name, "parent_id":parentId})
+        body: JSON.stringify({"name":name, "parent_id":info.parent_id})
       });
 
       if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
+        throw new Error(`Error! status: ${response.body}`);
       }
 
       const result = await response.json();
@@ -46,13 +45,13 @@ export const ModalFolder = ({parent,reload} ) => {
 
   return (
     <>
-      <Button variant="link" onClick={handleShow}>
-        New folder
-      </Button>
+      <span onClick={handleShow}>
+        Edit name
+      </span>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>New Folder</Modal.Title>
+          <Modal.Title>Edit Name of "{info.name}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -60,7 +59,7 @@ export const ModalFolder = ({parent,reload} ) => {
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Folder name</Form.Label>
+              <Form.Label>New Name</Form.Label>
               <Form.Control as="input" onChange={(e) => setName(e.target.value)} rows={3} />
             </Form.Group>
           </Form>
@@ -69,8 +68,8 @@ export const ModalFolder = ({parent,reload} ) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => handleChange()}>
-            Confirm folder name
+          <Button variant="primary" onClick={handleChange}>
+            Confirm new name
           </Button>
         </Modal.Footer>
       </Modal>

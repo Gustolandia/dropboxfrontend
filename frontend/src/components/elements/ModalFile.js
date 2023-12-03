@@ -3,11 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'js-cookie';
+import { fetchSnapshotData } from '../middleware/fetchSnapshotData';
+
 
 export const ModalFile = ({parent, reload}) => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
-  console.log(parent,name)
+  let parentId=null;
+  if (parent!=null){
+    parentId=parent.id;
+  }
   const handleChange = async () => {
     
     try {
@@ -15,7 +20,7 @@ export const ModalFile = ({parent, reload}) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/JSON' ,
         'Authorization': 'Bearer '+Cookies.get('token')},
-        body: JSON.stringify({"name":name, "parent_id":parent, "content":null})
+        body: JSON.stringify({"name":name, "parent_id":parentId, "content":null, "size":0})
       });
 
       if (!response.ok) {
@@ -25,14 +30,17 @@ export const ModalFile = ({parent, reload}) => {
       const result = await response.json();
 
       console.log(result)
-      
+      setName('');
+      const message = await fetchSnapshotData();
+      console.log(message);
+      reload('ReloadCreateFile');
     } catch (err) {
       console.log(err.message);
     } finally {
-      setName('');
-      reload('trying');
+
+      
     }
-    reload('ReloadCreateFile');
+
       
   } 
   const handleClose = () => setShow(false);

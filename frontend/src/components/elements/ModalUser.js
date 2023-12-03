@@ -11,7 +11,7 @@ import { Row} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
-export const ModalUser = () => {
+export const ModalUser = ({errorCode}) => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('');
@@ -48,6 +48,7 @@ export const ModalUser = () => {
                     setErr(error.message);
 
                     setStatus(401);
+                    errorCode(401)
                     console.log(error);
                 } finally {
                     setIsLoading(false);
@@ -56,6 +57,7 @@ export const ModalUser = () => {
                 }
             }else{
                 setStatus(401)
+                errorCode(401)
                 setIsLoading(false);
             }   
         }
@@ -65,7 +67,7 @@ export const ModalUser = () => {
     }
     setReload('');
     
-  },[err, show, reload]);
+  },[err, show, reload, errorCode]);
   return (
     <>
       <FontAwesomeIcon icon={faUser} size = '2x' onClick={handleShow} style={{cursor: 'pointer'}}/>

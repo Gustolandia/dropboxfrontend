@@ -8,35 +8,34 @@ import { fetchSnapshotData } from '../middleware/fetchSnapshotData';
 
 
 
-export const ModalUploadFile = ({parent, reload}) => {
+export const ModalUpdateFile = ({info, reload}) => {
   const [show, setShow] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const inputFileRef = useRef(null);
 
   const handleFileChange = () => {
     reload('');
-    const files = inputFileRef.current.files;
-    setSelectedFiles([...files]);
+    const file = inputFileRef.current.files[0];
+    console.log(file);
+    setSelectedFile(file);
   };
-  let parentId
-  parent===null? parentId=null : parentId=parent.id;
+
   const handleConfirm = async () => {
     
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
+    
+      const file = selectedFile;
       
       const reader = new FileReader();
       
       reader.onload = async function(e) {
-        console.log('It reaches here');
         try {
 
           const content = window.btoa(new Uint8Array(e.target.result).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-          const response = await fetch(process.env.REACT_APP_API+'/api/file/create/file', {
-            method: 'POST',
+          const response = await fetch(process.env.REACT_APP_API+'/api/file/update/file/'+info.id, {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/JSON' ,
             'Authorization': 'Bearer '+Cookies.get('token')},
-            body: JSON.stringify({"name":file.name, "parent_id":parentId, "content":content, "size":file.size})
+            body: JSON.stringify({"name":file.name, "parent_id":info.parent_id, "content":content, "size":file.size})
           });
 
           if (!response.ok) {
@@ -45,12 +44,13 @@ export const ModalUploadFile = ({parent, reload}) => {
 
           const result = await response.json();
 
-          console.log(`Uploaded ${file.name}:`, result);
+          console.log(`Updated ${file.name}:`, result);
+          
           const message = await fetchSnapshotData();
           console.log(message);
-          reload('ReloadCreateFile');
+          reload('ReloadUpdateFile');
         } catch (err) {
-          console.log(`Error uploading ${file.name}:`, err.message);
+          console.log(`Error updating ${file.name}:`, err.message);
         } finally {
 
         }
@@ -60,9 +60,9 @@ export const ModalUploadFile = ({parent, reload}) => {
       reader.readAsArrayBuffer(file);
 
       
-    }
     
-    setSelectedFiles([]);
+    
+    setSelectedFile(null);
     
   }
 
@@ -71,13 +71,13 @@ export const ModalUploadFile = ({parent, reload}) => {
 
   return (
     <>
-      <Button variant="link" onClick={handleShow}>
-        Upload files
-      </Button>
+      <span variant="link" onClick={handleShow}>
+        Update file
+      </span>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Upload Files</Modal.Title>
+          <Modal.Title>Update File "{info.name}"</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -85,8 +85,8 @@ export const ModalUploadFile = ({parent, reload}) => {
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Files to upload</Form.Label>
-              <Form.Control as="input" type="file" ref={inputFileRef} onChange={handleFileChange} multiple rows={3} />
+              <Form.Label>File to update into:</Form.Label>
+              <Form.Control as="input" type="file" ref={inputFileRef} onChange={handleFileChange} rows={3} />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -95,7 +95,7 @@ export const ModalUploadFile = ({parent, reload}) => {
             Cancel
           </Button>
           <Button variant="primary" onClick={handleConfirm}>
-            Confirm upload
+            Confirm update
           </Button>
         </Modal.Footer>
       </Modal>
