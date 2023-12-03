@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import React, { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import {Col} from 'react-bootstrap';
 import Cookies from 'js-cookie';
@@ -46,12 +46,13 @@ export const FieldEditor = ({data, reload}) => {
   return (
     <>
         {Object.keys(data).map((keyName, i) => (
-            <><Col key={2*i} className='my-2' xs={12} sm={9} > 
+            <React.Fragment key={i}><Col className='my-2' xs={12} sm={9} > 
                 {keyName.charAt(0).toUpperCase() + keyName.slice(1)}: {show1===keyName?<input onChange={(e) => setField(e.target.value)} type="text" Placeholder={keyName}/>:data[keyName]}
             </Col>
-            <Col key={2*i+1} className='my-2' xs={12} sm={3} >
+            <Col className='my-2' xs={12} sm={3} >
+
                 {show1===keyName?<Button className='w-100' variant="primary" onClick={() => handleChange()}> Save {keyName.charAt(0).toUpperCase() + keyName.slice(1)}</Button>:<Button className='w-100' variant="primary" onClick={() => setShow1(keyName)}> Edit {keyName.charAt(0).toUpperCase() + keyName.slice(1)}</Button>}
-            </Col></>
+            </Col></React.Fragment>
         ))
         }
     </>

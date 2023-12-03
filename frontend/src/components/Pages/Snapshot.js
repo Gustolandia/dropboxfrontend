@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Container, Col, Row, Button} from 'react-bootstrap';
 import { ModalsRight } from "../elements/ModalsRight";
-import { ListOfFiles } from "../elements/ListOfFiles";
+import { ListOfSnapshots } from "../elements/ListOfSnapshots";
 
 import Search from "../elements/Search"
 import NavBar from "../NavBar";
@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import { Login } from "../elements/Login";
 import { Loading } from "../elements/Loading";
 
-export const Home = ({Right}) => {
+export const Snapshot = ({Right}) => {
   const [status, setStatus] = useState('');
   const [reload, setReload] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -65,17 +65,11 @@ export const Home = ({Right}) => {
 
 
   useEffect(() => {
-    let folder
-    if (parent===null){
-      folder=null;
-    }else{
-      folder=parent.id;
-    }
     setIsLoading(true);
     const dataFetch = async () => {
       if (Cookies.get('token')!==undefined){
       try {
-        const response = await fetch(process.env.REACT_APP_API+'/api/file/getMetadata/'+folder, {
+        const response = await fetch(process.env.REACT_APP_API+'/api/zfs/snapshots', {
           method: 'GET',
           headers: { 'Content-Type': 'text/plain',
           'Authorization': 'Bearer '+Cookies.get('token')} 
@@ -125,13 +119,9 @@ export const Home = ({Right}) => {
 
                 <Row >
                   <Col sm={8}>
-                      <h3>
-                        {elements.map((element, index) => (
-                          <span key={index} >{element}</span>
-                          
-                        ))}
-                      </h3>
-                    <ListOfFiles data={filteredData} parent={parentFunction} reload={reloadedFunction}/>
+                    <ListOfSnapshots data={filteredData} parent={parentFunction} reload={reloadedFunction}/>
+
+
                   </Col>
                   <Col sm={4} >
                     {Right?<ModalsRight parent={parent} reload={reloadedFunction}/>:<></>}

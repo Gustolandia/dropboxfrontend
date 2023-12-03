@@ -7,19 +7,16 @@ import {Stack} from 'react-bootstrap';
 
 export const ModalsRight = ({parent, reload}) => {
 
-    
   
     return (
 
         <Stack gap={1} className="d-none d-sm-block">
             <div className="menuRight d-flex justify-content-end"><ModalFile parent={parent} reload={reload}/></div>
-            <div className="menuRight d-flex justify-content-end"><ModalUploadFile/></div>
-            <div className="menuRight d-flex justify-content-end"><ModalUploadFolder/></div>
+            <div className="menuRight d-flex justify-content-end"><ModalUploadFile parent={parent} reload={reload}/></div>
+            <div className="menuRight d-flex justify-content-end"><ModalUploadFolder parent={parent} reload={reload}/></div>
             <div className="menuRight d-flex justify-content-end"><ModalSharedFolder /></div>
-            <div className="menuRight d-flex justify-content-end"><ModalFolder /></div>
-
-
-          </Stack>
+            <div className="menuRight d-flex justify-content-end"><ModalFolder parent={parent} reload={reload}/></div>
+        </Stack>
 
 );
 }
