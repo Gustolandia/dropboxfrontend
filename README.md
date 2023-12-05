@@ -10,13 +10,14 @@ This document provides setup instructions for the frontend of the Dropbox clone,
 ## Installation
 
 1. **Clone the Repository**
-   ```bash
+```bash
    git clone [frontend-repo-url]
    cd frontend-filebox
 ```
 
 2. **Install Dependencies**
-   ```bash
+
+```bash
    npm install
 ```
 
